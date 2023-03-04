@@ -80,6 +80,20 @@ button:active {
   transform: translateX(
     -150px
   ); /* Moves the element to the left, the higher the negative number - the higher the increase in space the element moves */
-  transition: transform 0.3s ease-out; /* Creates a smoother transition, choose transform since that is the animation*/
+  /* transition: transform 0.3s ease-out;  A css property that creates a smoother transition, choose transform since that is the animation*/
+  animation: slide-fade 0.3s ease-out forwards; /* forwards means to make sure that after the animation the element should stay in the position created by the animation*/
+}
+
+/* A more configurable way of addidng animations */
+@keyframes slide-fade {
+  0% {
+    transform: translateX(0) scale(1); /* scale means to increase the size, the percentages refer to the moments in the animation*/
+  }
+  70% {
+    transform: translateX(-120px) scale(1.1);
+  }
+  100% {
+    transform: translateX(-150px) scale(1);
+  }
 }
 </style>
