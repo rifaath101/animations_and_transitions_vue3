@@ -3,6 +3,13 @@
     <div class="block" :class="{ animate: animatedBlock }"></div>
     <button @click="animateBlock">Animate</button>
   </div>
+  <div class="container">
+    <transition>
+      <!-- The transition tag can only have one child. It is a tag provided by vue to help create animations and can be useful for creating animation on elements that disappear -->
+      <p v-if="paraIsVisible">This is only sometimes visible...</p>
+    </transition>
+    <button @click="toggleParagraph">Toggle Paragraph</button>
+  </div>
   <base-modal @close="hideDialog" v-if="dialogIsVisible">
     <p>This is a test dialog!</p>
     <button @click="hideDialog">Close it!</button>
@@ -18,6 +25,7 @@ export default {
     return {
       dialogIsVisible: false,
       animatedBlock: false,
+      paraIsVisible: false,
     };
   },
   methods: {
@@ -29,6 +37,9 @@ export default {
     },
     hideDialog() {
       this.dialogIsVisible = false;
+    },
+    toggleParagraph() {
+      this.paraIsVisible = !this.paraIsVisible;
     },
   },
 };
@@ -79,12 +90,42 @@ button:active {
 .animate {
   transform: translateX(
     -150px
-  ); /* Moves the element to the left, the higher the negative number - the higher the increase in space the element moves */
+  ); /* Moves the element to the left, the higher the negative number - the higher the increase in space the element moves to the left. If the number is a positive, then vice versa */
   /* transition: transform 0.3s ease-out;  A css property that creates a smoother transition, choose transform since that is the animation*/
-  animation: slide-fade 0.3s ease-out forwards; /* forwards means to make sure that after the animation the element should stay in the position created by the animation*/
+  animation: slide-fade 0.3s ease-out forwards; /* forwards means to make sure that after the animation, the element should stay in the position created by the animation*/
 }
 
-/* A more configurable way of addidng animations */
+/* These are all classes provided by the transition tag */
+/* Animation for when the element appears */
+.v-enter-from {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.v-enter-active {
+  /* For the active classes add the transition property to watch for all  css properties that might be animated */
+  transition: all 0.3s ease-out;
+}
+
+.v-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Animation for when the element disappears */
+.v-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.v-leave-active {
+  transition: all 0.3s ease-out;
+}
+
+.v-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+/* keyframes is a more configurable way of addidng animations */
 @keyframes slide-fade {
   0% {
     transform: translateX(0) scale(1); /* scale means to increase the size, the percentages refer to the moments in the animation*/
