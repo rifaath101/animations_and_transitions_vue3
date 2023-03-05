@@ -98,35 +98,37 @@ button:active {
 /* These are all classes provided by the transition tag */
 /* Animation for when the element appears */
 .v-enter-from {
-  opacity: 0;
-  transform: translateY(-30px);
+  /* opacity: 0;
+  transform: translateY(-30px); */
 }
 
 .v-enter-active {
   /* For the active classes add the transition property to watch for all  css properties that might be animated */
-  transition: all 0.3s ease-out;
+  /* transition: all 0.3s ease-out; */
+  animation: slide-scale 0.3s ease-out; /* animation css property chooses which animation to execute. So you can use css animation with the transition component*/
 }
 
 .v-enter-to {
-  opacity: 1;
-  transform: translateY(0);
+  /* opacity: 1;
+  transform: translateY(0); */
 }
 /* Animation for when the element disappears */
 .v-leave-from {
-  opacity: 1;
-  transform: translateY(0);
+  /* opacity: 1;
+  transform: translateY(0); */
 }
 
 .v-leave-active {
-  transition: all 0.3s ease-out;
+  /* transition: all 0.3s ease-out; */
+  animation: slide-scale 0.3s ease-out;
 }
 
 .v-leave-to {
-  opacity: 0;
-  transform: translateY(-30px);
+  /* opacity: 0;
+  transform: translateY(-30px); */
 }
 /* keyframes is a more configurable way of addidng animations */
-@keyframes slide-fade {
+@keyframes slide-scale {
   0% {
     transform: translateX(0) scale(1); /* scale means to increase the size, the percentages refer to the moments in the animation*/
   }
