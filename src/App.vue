@@ -4,8 +4,8 @@
     <button @click="animateBlock">Animate</button>
   </div>
   <div class="container">
-    <transition>
-      <!-- The transition tag can only have one child. It is a tag provided by vue to help create animations and can be useful for creating animation on elements that disappear -->
+    <transition name="para">
+      <!-- The transition component can only have one child. It is a component provided by vue to help create animations and can be useful for creating animation on elements that disappear. If you have multiple transition components, you can use the name prop to differentiate them. So instead of .v-enter-from , it will be para-enter-from. Also if for some reason you need to use custom class names for v-enter-from, v-enter-to, etc. you can do so by using the prop = enter-to-class="your-class-name" and same with the rest -->
       <p v-if="paraIsVisible">This is only sometimes visible...</p>
     </transition>
     <button @click="toggleParagraph">Toggle Paragraph</button>
@@ -97,28 +97,28 @@ button:active {
 
 /* These are all classes provided by the transition tag */
 /* Animation for when the element appears */
-.v-enter-from {
+.para-enter-from {
   /* opacity: 0;
   transform: translateY(-30px); */
 }
 
-.v-enter-active {
+.para-enter-active {
   /* For the active classes add the transition property to watch for all  css properties that might be animated */
   /* transition: all 0.3s ease-out; */
   animation: slide-scale 0.3s ease-out; /* animation css property chooses which animation to execute. So you can use css animation with the transition component*/
 }
 
-.v-enter-to {
+.para-enter-to {
   /* opacity: 1;
   transform: translateY(0); */
 }
 /* Animation for when the element disappears */
-.v-leave-from {
+.para-leave-from {
   /* opacity: 1;
   transform: translateY(0); */
 }
 
-.v-leave-active {
+.para-leave-active {
   /* transition: all 0.3s ease-out; */
   animation: slide-scale 0.3s ease-out;
 }
