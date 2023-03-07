@@ -9,8 +9,15 @@
       <p v-if="paraIsVisible">This is only sometimes visible...</p>
     </transition>
     <button @click="toggleParagraph">Toggle Paragraph</button>
+    <div class="container">
+      <transition name="fade-button" mode="out-in">
+        <!-- The only time you can have more than one child inside of a transition component is when only one of them are in the dom at the same time, like the one below. Right now only one of them will be shown. However in order for it to work you have to use v-else on the second element to signal to Vue that only one of them will be shown. Mode allows you to choose which animation to be shown first-->
+        <button v-if="!usersAreVisible" @click="showUsers">Show Users</button>
+        <button v-else @click="hideUsers">Hide Users</button>
+      </transition>
+    </div>
   </div>
-  <base-modal @close="hideDialog" v-if="dialogIsVisible">
+  <base-modal @close="hideDialog" :open="dialogIsVisible">
     <p>This is a test dialog!</p>
     <button @click="hideDialog">Close it!</button>
   </base-modal>
@@ -26,9 +33,16 @@ export default {
       dialogIsVisible: false,
       animatedBlock: false,
       paraIsVisible: false,
+      usersAreVisible: false,
     };
   },
   methods: {
+    showUsers() {
+      this.usersAreVisible = true;
+    },
+    hideUsers() {
+      this.usersAreVisible = false;
+    },
     animateBlock() {
       this.animatedBlock = true;
     },
@@ -123,6 +137,23 @@ button:active {
   animation: slide-scale 0.3s ease-out;
 }
 
+.fade-button-enter-from,
+.fade-button-leave-to {
+  opacity: 0;
+}
+
+.fade-buttone-enter-active {
+  transition: opacity 0.3s ease-out;
+}
+
+.fade-button-leave-active {
+  transition: opacity 0.3s ease-in;
+}
+
+.fade-button-enter-to,
+.fade-button-leave-from {
+  opacity: 1;
+}
 .v-leave-to {
   /* opacity: 0;
   transform: translateY(-30px); */
