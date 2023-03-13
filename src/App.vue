@@ -4,8 +4,18 @@
     <button @click="animateBlock">Animate</button>
   </div>
   <div class="container">
-    <transition name="para">
-      <!-- The transition component can only have one child. It is a component provided by vue to help create animations and can be useful for creating animation on elements that disappear. If you have multiple transition components, you can use the name prop to differentiate them. So instead of .v-enter-from , it will be para-enter-from. Also if for some reason you need to use custom class names for v-enter-from, v-enter-to, etc. you can do so by using the prop = enter-to-class="your-class-name" and same with the rest -->
+    <transition
+      name="para"
+      @before-enter="beforeEnter"
+      @before-leave="beforeLeave"
+      @enter="enter"
+      @after-enter="afterEnter"
+      @leave="leave"
+      @after-leave="afterLeave"
+    >
+      <!-- The transition component can only have one child. It is a component provided by vue to help create animations and can be useful for creating animation on elements that disappear. If you have multiple transition components, you can use the name prop to differentiate them. So instead of .v-enter-from , it will be para-enter-from. Also if for some reason you need to use custom class names for v-enter-from, v-enter-to, etc. you can do so by using the prop => enter-to-class="your-class-name" and same with the rest -->
+
+      <!-- @before-enter is a prop that allows you to provide a function to a transition component before it reveals the component and vice versa with @before-leave. @enter is for when the element has just entered and @after-enter is for after the element has been entered -->
       <p v-if="paraIsVisible">This is only sometimes visible...</p>
     </transition>
     <button @click="toggleParagraph">Toggle Paragraph</button>
@@ -37,6 +47,26 @@ export default {
     };
   },
   methods: {
+    beforeEnter(el) {
+      console.log('beforeEnter');
+      console.log(el);
+      // el is an argument that vue provides in which you can modify the element to your needs as it targets the element
+    },
+    beforeLeave() {
+      console.log('beforeLeave');
+    },
+    enter() {
+      console.log('enter');
+    },
+    afterEnter() {
+      console.log('afterEnter');
+    },
+    leave() {
+      console.log('leave');
+    },
+    afterLeave() {
+      console.log('afterLeave');
+    },
     showUsers() {
       this.usersAreVisible = true;
     },
