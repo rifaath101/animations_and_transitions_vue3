@@ -12,7 +12,11 @@
       @after-enter="afterEnter"
       @leave="leave"
       @after-leave="afterLeave"
+      @enter-cancelled="enterCancelled"
+      @leave-cancelled="leaveCancelled"
     >
+      <!--@enter-cancelled gets triggered when the enter animation gets cancelled and same with @leave-cancelled for leave animation-->
+
       <!-- The transition component can only have one child. It is a component provided by vue to help create animations and can be useful for creating animation on elements that disappear. If you have multiple transition components, you can use the name prop to differentiate them. So instead of .v-enter-from , it will be para-enter-from. Also if for some reason you need to use custom class names for v-enter-from, v-enter-to, etc. you can do so by using the prop => enter-to-class="your-class-name" and same with the rest -->
 
       <!-- @before-enter is a prop that allows you to provide a function to a transition component before it reveals the component and vice versa with @before-leave. @enter is for when the element has just entered and @after-enter is for after the element has been entered -->
@@ -44,29 +48,51 @@ export default {
       animatedBlock: false,
       paraIsVisible: false,
       usersAreVisible: false,
+      enterInterval: null,
+      leaveInterval: null,
     };
   },
   methods: {
+    /* Why would I use js to style my animations ? Sometimes you can use a third party library to animate your transitions and js will help with that */
+    enterCancelled() {
+      console.log('Enter Cancelled');
+      clearInterval(this.enterInterval);
+    },
+    leaveCancelled() {
+      clearInterval(this.leaveInterval);
+    },
     beforeEnter(el) {
-      console.log('beforeEnter');
-      console.log(el);
+      el.style.opacity = 0; // This is how you programmatically set the opacity to 0
       // el is an argument that vue provides in which you can modify the element to your needs as it targets the element
     },
-    beforeLeave() {
-      console.log('beforeLeave');
+    enter(el, done) {
+      let round = 1;
+      this.enterInterval = setInterval(() => {
+        // setInterval is a built in js function that allows you to execute code every couple of milliseconds
+        el.style.opacity = round * 0.01;
+        round++;
+        if (round > 100) {
+          clearInterval(this.enterInterval);
+          done(); // Vue doesn't understand exactly the order of events during a transition like this due to the logic. So to signal to vue that the transition event is done is to type done() after writing your logic. This way the order of events will occur correctly.
+        }
+      }, 20);
     },
-    enter() {
-      console.log('enter');
+    afterEnter() {},
+    beforeLeave(el) {
+      el.style.opacity = 1;
     },
-    afterEnter() {
-      console.log('afterEnter');
+    leave(el, done) {
+      let round = 1;
+      this.leaveInterval = setInterval(() => {
+        el.style.opacity = 1 - round * 0.1;
+        round++;
+        if (round > 10) {
+          clearInterval(this.leaveInterval);
+          done();
+        }
+      }, 20);
     },
-    leave() {
-      console.log('leave');
-    },
-    afterLeave() {
-      console.log('afterLeave');
-    },
+    afterLeave() {},
     showUsers() {
       this.usersAreVisible = true;
     },
@@ -139,33 +165,17 @@ button:active {
   animation: slide-fade 0.3s ease-out forwards; /* forwards means to make sure that after the animation, the element should stay in the position created by the animation*/
 }
 
-/* These are all classes provided by the transition tag */
+/* These are all classes provided by the transition tag
 /* Animation for when the element appears */
-.para-enter-from {
-  /* opacity: 0;
+
+/* opacity: 0;
   transform: translateY(-30px); */
-}
 
-.para-enter-active {
-  /* For the active classes add the transition property to watch for all  css properties that might be animated */
-  /* transition: all 0.3s ease-out; */
-  animation: slide-scale 0.3s ease-out; /* animation css property chooses which animation to execute. So you can use css animation with the transition component*/
-}
+/* For the active classes add the transition property to watch for all  css properties that might be animated */
+/* transition: all 0.3s ease-out; */
+/* animation css property chooses which animation to execute. So you can use css animation with the transition component*/
 
-.para-enter-to {
-  /* opacity: 1;
-  transform: translateY(0); */
-}
 /* Animation for when the element disappears */
-.para-leave-from {
-  /* opacity: 1;
-  transform: translateY(0); */
-}
-
-.para-leave-active {
-  /* transition: all 0.3s ease-out; */
-  animation: slide-scale 0.3s ease-out;
-}
 
 .fade-button-enter-from,
 .fade-button-leave-to {
