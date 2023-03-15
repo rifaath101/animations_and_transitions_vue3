@@ -6,6 +6,7 @@
   <div class="container">
     <transition
       name="para"
+      :css="false"
       @before-enter="beforeEnter"
       @before-leave="beforeLeave"
       @enter="enter"
@@ -15,6 +16,8 @@
       @enter-cancelled="enterCancelled"
       @leave-cancelled="leaveCancelled"
     >
+      <!-- Setting the prop css to false for a transition component tells vue js to not look for any css regarding this speciifc component which can help improve the performance a bit, tiny things like this can help improve the performance of your app.-->
+
       <!--@enter-cancelled gets triggered when the enter animation gets cancelled and same with @leave-cancelled for leave animation-->
 
       <!-- The transition component can only have one child. It is a component provided by vue to help create animations and can be useful for creating animation on elements that disappear. If you have multiple transition components, you can use the name prop to differentiate them. So instead of .v-enter-from , it will be para-enter-from. Also if for some reason you need to use custom class names for v-enter-from, v-enter-to, etc. you can do so by using the prop => enter-to-class="your-class-name" and same with the rest -->
