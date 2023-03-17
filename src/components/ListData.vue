@@ -61,10 +61,15 @@ li {
 
 .user-list-leave-active {
   transition: all 1s ease-in;
+  position: absolute; /* This style in this class can help make the animation smooth for the elements that are not actively being animated */
 }
 
 .user-list-leave-to {
   opacity: 0;
   transform: translateX(30px);
+}
+
+.user-list-move {
+  transition: transform 0.8s ease; /* This class and style makes the animation smooth for the elements that are not actively being animated */
 }
 </style>
