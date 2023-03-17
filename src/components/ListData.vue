@@ -1,9 +1,11 @@
 <template>
-  <ul>
+  <transition-group tag="ul" name="user-list">
     <li v-for="user in users" :key="user" @click="removeUser(user)">
       {{ user }}
     </li>
-  </ul>
+  </transition-group>
+  <!-- transition-group allows you to transition multiple elements which is useful for animating lists. The transition element doesn't render itself on the dom, however the transition-group does. You can decide which element it renders on the dom with the prop 'tag' -->
+
   <div>
     <input type="text" ref="userNameInput" />
     <button @click="addUser">Add User</button>
@@ -40,5 +42,29 @@ li {
   border: 1px solid #ccc;
   padding: 1rem;
   text-align: center;
+}
+
+.user-list-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.user-list-enter-active {
+  transition: all 1s ease-out;
+}
+
+.user-list-enter-to,
+.user-list-leave-from {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.user-list-leave-active {
+  transition: all 1s ease-in;
+}
+
+.user-list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }
 </style>
