@@ -1,5 +1,11 @@
 <template>
-  <div class="container">
+  <router-view v-slot="slotProps">
+    <!-- This is the syntax to transition routes -->
+    <transition name="fade-button" mode="out-in">
+      <component :is="slotProps.Component"></component>
+    </transition>
+  </router-view>
+  <!-- <div class="container">
     <list-data></list-data>
   </div>
   <div class="container">
@@ -18,21 +24,21 @@
       @after-leave="afterLeave"
       @enter-cancelled="enterCancelled"
       @leave-cancelled="leaveCancelled"
-    >
-      <!-- Setting the prop css to false for a transition component tells vue js to not look for any css regarding this speciifc component which can help improve the performance a bit, tiny things like this can help improve the performance of your app.-->
+    > -->
+  <!-- Setting the prop css to false for a transition component tells vue js to not look for any css regarding this speciifc component which can help improve the performance a bit, tiny things like this can help improve the performance of your app.-->
 
-      <!--@enter-cancelled gets triggered when the enter animation gets cancelled and same with @leave-cancelled for leave animation-->
+  <!--@enter-cancelled gets triggered when the enter animation gets cancelled and same with @leave-cancelled for leave animation-->
 
-      <!-- The transition component can only have one child. It is a component provided by vue to help create animations and can be useful for creating animation on elements that disappear. If you have multiple transition components, you can use the name prop to differentiate them. So instead of .v-enter-from , it will be para-enter-from. Also if for some reason you need to use custom class names for v-enter-from, v-enter-to, etc. you can do so by using the prop => enter-to-class="your-class-name" and same with the rest -->
+  <!-- The transition component can only have one child. It is a component provided by vue to help create animations and can be useful for creating animation on elements that disappear. If you have multiple transition components, you can use the name prop to differentiate them. So instead of .v-enter-from , it will be para-enter-from. Also if for some reason you need to use custom class names for v-enter-from, v-enter-to, etc. you can do so by using the prop => enter-to-class="your-class-name" and same with the rest -->
 
-      <!-- @before-enter is a prop that allows you to provide a function to a transition component before it reveals the component and vice versa with @before-leave. @enter is for when the element has just entered and @after-enter is for after the element has been entered -->
-      <p v-if="paraIsVisible">This is only sometimes visible...</p>
+  <!-- @before-enter is a prop that allows you to provide a function to a transition component before it reveals the component and vice versa with @before-leave. @enter is for when the element has just entered and @after-enter is for after the element has been entered -->
+  <!-- <p v-if="paraIsVisible">This is only sometimes visible...</p>
     </transition>
     <button @click="toggleParagraph">Toggle Paragraph</button>
     <div class="container">
-      <transition name="fade-button" mode="out-in">
-        <!-- The only time you can have more than one child inside of a transition component is when only one of them are in the dom at the same time, like the one below. Right now only one of them will be shown. However in order for it to work you have to use v-else on the second element to signal to Vue that only one of them will be shown. Mode allows you to choose which animation to be shown first-->
-        <button v-if="!usersAreVisible" @click="showUsers">Show Users</button>
+      <transition name="fade-button" mode="out-in"> -->
+  <!-- The only time you can have more than one child inside of a transition component is when only one of them are in the dom at the same time, like the one below. Right now only one of them will be shown. However in order for it to work you have to use v-else on the second element to signal to Vue that only one of them will be shown. Mode allows you to choose which animation to be shown first-->
+  <!-- <button v-if="!usersAreVisible" @click="showUsers">Show Users</button>
         <button v-else @click="hideUsers">Hide Users</button>
       </transition>
     </div>
@@ -43,14 +49,11 @@
   </base-modal>
   <div class="container">
     <button @click="showDialog">Show Dialog</button>
-  </div>
+  </div> -->
 </template>
 
 <script>
-import ListData from './components/ListData.vue';
-
 export default {
-  components: { ListData },
   data() {
     return {
       dialogIsVisible: false,
